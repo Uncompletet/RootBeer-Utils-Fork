@@ -9,14 +9,13 @@ import net.minecraft.client.renderer.SpriteMapper;
 import net.minecraft.client.renderer.blockentity.state.ChestRenderState;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.block.CopperChestBlock;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.DecoratedPotPatterns;
+import net.minecraft.world.level.block.entity.DecoratedPotPattern;
 import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.entity.TrappedChestBlockEntity;
 
@@ -31,7 +30,7 @@ public final class MaterialSelector {
     }
 
     private static final ConcurrentHashMap<Identifier, SpriteId> BANNER_MATERIALS = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<Item, SpriteId> DECORATED_POT_MATERIALS = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Identifier, SpriteId> DECORATED_POT_MATERIALS = new ConcurrentHashMap<>();
 
     public static SpriteId getBannerMaterial(Holder<BannerPattern> holder) {
         Identifier id = holder.value().assetId();
@@ -39,31 +38,17 @@ public final class MaterialSelector {
         return BANNER_MATERIALS.computeIfAbsent(id, mapper::apply);
     }
 
-    public static SpriteId getDPSideMaterial(Optional<Item> optional) {
+    public static SpriteId getDPSideMaterial(Optional<ItemStackTemplate> optional) {
         if (optional.isPresent()) {
-            SpriteId material = DECORATED_POT_MATERIALS.computeIfAbsent(optional.get(), MaterialSelector::getDecoratedPotSprite);
-            if (material != null) {
-                return material;
+            Holder<DecoratedPotPattern> pattern = optional.get().get(DataComponents.PROVIDES_POTTERY_PATTERN);
+            if (pattern != null) {
+                Identifier assetId = pattern.value().assetId();
+                return DECORATED_POT_MATERIALS.computeIfAbsent(
+                        assetId, Sheets.DECORATED_POT_MAPPER::apply);
             }
         }
 
         return Sheets.DECORATED_POT_SIDE;
-    }
-
-    private static SpriteId getDecoratedPotSprite(Item item) {
-        Optional<ResourceKey<Item>> itemKey = BuiltInRegistries.ITEM.getResourceKey(item);
-        if (itemKey.isEmpty()) {
-            return null;
-        }
-
-        final SpriteId[] result = new SpriteId[1];
-        DecoratedPotPatterns.itemToPatternMappings((mappedItem, pattern) -> {
-            if (mappedItem.equals(itemKey.get())) {
-                Identifier assetID = BuiltInRegistries.DECORATED_POT_PATTERN.getOrThrow(pattern).value().assetId();
-                result[0] = Sheets.DECORATED_POT_MAPPER.apply(assetID);
-            }
-        });
-        return result[0];
     }
 
     public static ChestRenderState.ChestMaterialType getChestMaterial(BlockEntity blockEntity, boolean christmas) {
