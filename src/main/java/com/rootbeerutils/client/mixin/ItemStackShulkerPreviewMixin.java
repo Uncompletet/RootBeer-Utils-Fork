@@ -49,7 +49,8 @@ public class ItemStackShulkerPreviewMixin {
     }
 
     @Inject(method = "addToTooltip", at = @At("HEAD"), cancellable = true)
-    private <T extends TooltipProvider> void rbutils$skipShulkerContainerLines(DataComponentType<T> type, Item.TooltipContext context, TooltipDisplay display,
+    private <T extends TooltipProvider> void rbutils$skipShulkerContainerLines(DataComponentType<T> type, TooltipProvider.Getter<T> getter,
+                                                                               Item.TooltipContext context, TooltipDisplay display,
                                                                                Consumer<Component> consumer, TooltipFlag flag, CallbackInfo ci) {
         if (type != DataComponents.CONTAINER) {
             return;

@@ -73,7 +73,7 @@ public final class ModelGenerator {
     private static void setupShulker(ModelLayerLocation layer, ModelPart root, PoseStack stack) {
         stack.pushPose();
         stack.translate(0.5F, -0.5F, 0.5F);
-        stack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        stack.rotateDegrees(Axis.YP, 180.0F);
         GeometryRegistry.cacheGeometry(layer, root, GeometryRegistry.PlaceHolderSpriteIdentifiers.SHULKER, stack);
         stack.popPose();
     }
@@ -87,7 +87,7 @@ public final class ModelGenerator {
     private static void setupBell(ModelLayerLocation layer, ModelPart root, PoseStack stack) {
         stack.pushPose();
         stack.translate(0.5F, 0.0F, 0.5F);
-        stack.mulPose(Axis.YP.rotationDegrees(90.0F));
+        stack.rotateDegrees(Axis.YP, 90.0F);
         stack.translate(-0.5F, 0.0F, -0.5F);
         GeometryRegistry.cacheGeometry(layer, root, GeometryRegistry.PlaceHolderSpriteIdentifiers.BELL_BODY, stack);
         stack.popPose();
@@ -96,7 +96,7 @@ public final class ModelGenerator {
     private static void setupDecoratedPot(ModelLayerLocation layer, ModelPart root, PoseStack stack) {
         stack.pushPose();
         stack.translate(0.5F, 0.0F, 0.5F);
-        stack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        stack.rotateDegrees(Axis.YP, 180.0F);
         stack.translate(-0.5F, 0.0F, -0.5F);
         GeometryRegistry.cacheGeometry(layer, root, GeometryRegistry.PlaceHolderSpriteIdentifiers.DECORATED_POT_BASE, stack);
         stack.popPose();
@@ -122,7 +122,7 @@ public final class ModelGenerator {
     private static void setupCopperGolemStatue(ModelLayerLocation layer, ModelPart root, PoseStack stack) {
         stack.pushPose();
         stack.translate(0.5f, 0.5f, 0.5f);
-        stack.mulPose(Axis.XP.rotationDegrees(180));
+        stack.rotateDegrees(Axis.XP, 180);
         stack.translate(-0.5f, -0.5f, -0.5f);
         stack.translate(0.5F, 1.0F, 0.5F);
         GeometryRegistry.cacheGeometry(layer, root, GeometryRegistry.PlaceHolderSpriteIdentifiers.COPPER_GOLEM_STATUE, stack);

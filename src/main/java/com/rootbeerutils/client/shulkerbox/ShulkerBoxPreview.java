@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallbac
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +23,12 @@ public class ShulkerBoxPreview implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         lockKey = new KeyMapping("key.rootbeerutils.shulker_lock_tooltip",
-                GLFW.GLFW_KEY_LEFT_CONTROL,
+                InputConstants.KEY_LCONTROL,
                 KeyMapping.Category.MISC);
         KeyMappingHelper.registerKeyMapping(lockKey);
 
         expandKey = new KeyMapping("key.rootbeerutils.ender_expand_tooltip",
-                GLFW.GLFW_KEY_LEFT_ALT,
+                InputConstants.KEY_LALT,
                 KeyMapping.Category.MISC);
         KeyMappingHelper.registerKeyMapping(expandKey);
 
@@ -52,13 +51,12 @@ public class ShulkerBoxPreview implements ClientModInitializer {
         }
 
         InputConstants.Key key = ((KeyMappingAccessor) lockKey).rbutils$getBoundKey();
-        if (key.getType() != InputConstants.Type.KEYSYM
+        if (key.getType() != InputConstants.Type.KEYBOARD
                 || key.getValue() == InputConstants.UNKNOWN.getValue()) {
             return false;
         }
 
-        long handle = Minecraft.getInstance().getWindow().handle();
-        return GLFW.glfwGetKey(handle, key.getValue()) == GLFW.GLFW_PRESS;
+        return InputConstants.isKeyDown(key.getValue());
     }
 
     public static boolean isExpandKeyPressed() {
@@ -67,14 +65,11 @@ public class ShulkerBoxPreview implements ClientModInitializer {
         }
 
         InputConstants.Key key = ((KeyMappingAccessor) expandKey).rbutils$getBoundKey();
-        if (key.getType() != InputConstants.Type.KEYSYM
+        if (key.getType() != InputConstants.Type.KEYBOARD
                 || key.getValue() == InputConstants.UNKNOWN.getValue()) {
             return false;
         }
 
-        long handle = Minecraft.getInstance().getWindow().handle();
-        return GLFW.glfwGetKey(handle, key.getValue()) == GLFW.GLFW_PRESS;
+        return InputConstants.isKeyDown(key.getValue());
     }
 }
-
-

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.CopperGolemStatueRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
@@ -78,16 +79,14 @@ public class BBECopperGolemStatueBlockRenderer implements BlockEntityRenderer<Co
 
         boolean managed = OverlayRenderer.manageCrumblingOverlay(stateExt.rootbeer_utils$blockEntity(), submitNodeCollector, poseStack, model, Unit.INSTANCE, state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
         if (!managed) {
-            submitNodeCollector.submitModel(
-                    model,
-                    Unit.INSTANCE,
-                    poseStack,
-                    CopperGolemOxidationLevels.getOxidationLevel(state.oxidationState).texture(),
-                    state.lightCoords,
-                    OverlayTexture.NO_OVERLAY,
-                    0,
-                    state.breakProgress
-            );
+            var texture = CopperGolemOxidationLevels.getOxidationLevel(state.oxidationState).texture();
+            submitNodeCollector.submitModel(model, Unit.INSTANCE, poseStack, texture,
+                    state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            if (state.breakProgress != null) {
+                submitNodeCollector.submitCrumblingOverlay(model, Unit.INSTANCE, poseStack,
+                        RenderTypes.entitySolid(texture),
+                        state.lightCoords, OverlayTexture.NO_OVERLAY, 0, state.breakProgress);
+            }
         }
 
         poseStack.popPose();

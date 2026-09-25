@@ -8,7 +8,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class QuickPackClient implements ClientModInitializer {
 
@@ -17,7 +17,7 @@ public class QuickPackClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         toggleKey = new KeyMapping("key.rootbeerutils.quickpack_toggle",
-                                   GLFW.GLFW_KEY_UNKNOWN, // unbound by default (-1)
+                                   InputConstants.UNKNOWN.getValue(), // unbound by default (-1)
                                    KeyMapping.Category.MISC);
         KeyMappingHelper.registerKeyMapping(toggleKey);
 

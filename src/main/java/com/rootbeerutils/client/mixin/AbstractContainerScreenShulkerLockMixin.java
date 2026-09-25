@@ -65,10 +65,10 @@ public class AbstractContainerScreenShulkerLockMixin {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @Redirect(method = "extractTooltip",
               at = @At(value = "INVOKE",
-                       target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;setTooltipForNextFrame(Lnet/minecraft/client/gui/Font;Ljava/util/List;Ljava/util/Optional;IILnet/minecraft/resources/Identifier;)V"))
+                       target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;setTooltipForNextFrame(Lnet/minecraft/client/gui/Font;Ljava/util/List;Ljava/util/Optional;IILnet/minecraft/resources/Identifier;Z)V"))
     private void rbutils$lockTooltipPosition(GuiGraphicsExtractor graphics, Font font,
                                              List<Component> texts, Optional<TooltipComponent> optionalImage,
-                                             int xo, int yo, Identifier style) {
+                                             int xo, int yo, Identifier style, boolean focused) {
         boolean lockable = optionalImage.orElse(null) instanceof ShulkerBoxPreviewTooltipComponent;
         if (ShulkerBoxPreview.isLockKeyPressed() && lockable) {
             // First lock-eligible frame — snapshot tooltip origin and the slot under the cursor.
@@ -86,6 +86,6 @@ public class AbstractContainerScreenShulkerLockMixin {
             yo = this.rbutils$lockedY;
         }
 
-        graphics.setTooltipForNextFrame(font, texts, optionalImage, xo, yo, style);
+        graphics.setTooltipForNextFrame(font, texts, optionalImage, xo, yo, style, focused);
     }
 }
