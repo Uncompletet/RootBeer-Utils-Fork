@@ -20,7 +20,7 @@ import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.world.level.block.entity.PotDecorations;
 import net.minecraft.world.phys.Vec3;
@@ -66,7 +66,7 @@ public class BBEDecoratedPotRenderer implements BlockEntityRenderer<DecoratedPot
         this.rightSide = sidesRoot.getChild("right");
     }
 
-    private static SpriteId getSideSprite(final @Nullable Item item) {
+    private static SpriteId getSideSprite(final @Nullable ItemStackTemplate item) {
         return MaterialSelector.getDPSideMaterial(java.util.Optional.ofNullable(item));
     }
 
@@ -150,6 +150,6 @@ public class BBEDecoratedPotRenderer implements BlockEntityRenderer<DecoratedPot
     private static void submitPart(final SubmitNodeCollector collector, final ModelPart part, final PoseStack poseStack,
                                    final RenderType renderType, final int lightCoords, final int overlayCoords,
                                    final TextureAtlasSprite sprite, final int outlineColor) {
-        collector.submitModelPart(part, poseStack, renderType, lightCoords, overlayCoords, sprite, -1, null, outlineColor);
+        collector.submitModelPart(part, poseStack, renderType, lightCoords, overlayCoords, sprite, outlineColor);
     }
 }

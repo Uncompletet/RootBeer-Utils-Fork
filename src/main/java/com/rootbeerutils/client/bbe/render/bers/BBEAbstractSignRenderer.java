@@ -29,6 +29,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.entity.SignText;
+import net.minecraft.world.level.block.entity.SignTextSlot;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.phys.Vec3;
@@ -81,7 +82,8 @@ public abstract class BBEAbstractSignRenderer<S extends SignRenderState> impleme
     @Unique
     protected void submitSign(final PoseStack poseStack, final int lightCoords, final WoodType type, final Model.Simple signModel, final ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress, final SubmitNodeCollector submitNodeCollector) {
         SpriteId sprite = this.getSignSprite(type);
-        submitNodeCollector.submitModel(signModel, Unit.INSTANCE, poseStack, lightCoords, OverlayTexture.NO_OVERLAY, -1, sprite, this.sprites, 0, breakProgress);
+        OverlayRenderer.submitModel(submitNodeCollector, signModel, Unit.INSTANCE, poseStack, lightCoords,
+                OverlayTexture.NO_OVERLAY, -1, sprite, this.sprites, 0, breakProgress);
     }
 
     private void manageCrumblingOverlay(S state, PoseStack poseStack, SubmitNodeCollector collector) {
@@ -227,8 +229,8 @@ public abstract class BBEAbstractSignRenderer<S extends SignRenderState> impleme
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         state.maxTextLineWidth = blockEntity.getMaxTextLineWidth();
         state.textLineHeight = blockEntity.getTextLineHeight();
-        state.frontText = blockEntity.getFrontText();
-        state.backText = blockEntity.getBackText();
+        state.frontText = blockEntity.getText(SignTextSlot.FRONT);
+        state.backText = blockEntity.getText(SignTextSlot.BACK);
         state.isTextFilteringEnabled = Minecraft.getInstance().isTextFilteringEnabled();
         state.drawOutline = isOutlineVisible(blockEntity.getBlockPos());
     }

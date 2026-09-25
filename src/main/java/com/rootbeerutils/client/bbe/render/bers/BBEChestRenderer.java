@@ -103,7 +103,8 @@ public class BBEChestRenderer<T extends BlockEntity & LidBlockEntity> implements
         boolean managed = OverlayRenderer.manageCrumblingOverlay(stateExt.rootbeer_utils$blockEntity(), submitNodeCollector, poseStack, model, open, state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
         if (!managed) {
             model = this.bbeModels.select(state.type);
-            submitNodeCollector.submitModel(model, open, poseStack, state.lightCoords, OverlayTexture.NO_OVERLAY, -1, spriteId, this.sprites, 0, state.breakProgress);
+            OverlayRenderer.submitModel(submitNodeCollector, model, open, poseStack, state.lightCoords,
+                    OverlayTexture.NO_OVERLAY, -1, spriteId, this.sprites, 0, state.breakProgress);
         }
 
         poseStack.popPose();

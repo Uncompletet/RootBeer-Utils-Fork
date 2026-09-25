@@ -57,9 +57,8 @@ public class BBEBellRenderer implements BlockEntityRenderer<BellBlockEntity, Bel
 
         boolean managed = OverlayRenderer.manageCrumblingOverlay(stateExt.rootbeer_utils$blockEntity(), submitNodeCollector, poseStack, model, modelState, state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
         if (!managed) {
-            submitNodeCollector.submitModel(
-                    this.model, modelState, poseStack, state.lightCoords, OverlayTexture.NO_OVERLAY, -1, BELL_TEXTURE, this.sprites, 0, state.breakProgress
-            );
+            OverlayRenderer.submitModel(submitNodeCollector, this.model, modelState, poseStack, state.lightCoords,
+                    OverlayTexture.NO_OVERLAY, -1, BELL_TEXTURE, this.sprites, 0, state.breakProgress);
         }
     }
 }

@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.WallAndGroundTransformations;
 import net.minecraft.client.renderer.blockentity.state.BannerRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -152,7 +153,8 @@ public class BBEBannerRenderer implements BlockEntityRenderer<BannerBlockEntity,
 
         boolean managed = OverlayRenderer.manageCrumblingOverlay(stateExt.rootbeer_utils$blockEntity(), collector, poseStack, model, Unit.INSTANCE, lightCoords, OverlayTexture.NO_OVERLAY, 0, breakProgress);
         if (!managed) {
-            collector.submitModel(model, Unit.INSTANCE, poseStack, lightCoords, OverlayTexture.NO_OVERLAY, -1, sprite, sprites, 0, breakProgress);
+            OverlayRenderer.submitModel(collector, model, Unit.INSTANCE, poseStack, lightCoords,
+                    OverlayTexture.NO_OVERLAY, -1, sprite, sprites, 0, breakProgress);
         }
 
         float step = -0.45f;
@@ -165,7 +167,8 @@ public class BBEBannerRenderer implements BlockEntityRenderer<BannerBlockEntity,
         // OverlayRenderer's null-check before the eventual setupAnim call.
         boolean managed2 = OverlayRenderer.manageCrumblingOverlay(stateExt.rootbeer_utils$blockEntity(), collector, poseStack, flagModel, null, lightCoords, OverlayTexture.NO_OVERLAY, 0, breakProgress);
         if (!managed2) {
-            collector.submitModel(flagModel, phase, poseStack, lightCoords, OverlayTexture.NO_OVERLAY, -1, sprite, sprites, 0, breakProgress);
+            OverlayRenderer.submitModel(collector, flagModel, phase, poseStack, lightCoords,
+                    OverlayTexture.NO_OVERLAY, -1, sprite, sprites, 0, breakProgress);
         }
 
         if (!managed && !managed2) {
@@ -215,9 +218,15 @@ public class BBEBannerRenderer implements BlockEntityRenderer<BannerBlockEntity,
                                                final DyeColor color,
                                                final ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         int diffuseColor = color.getTextureDiffuseColor();
+        RenderType renderType = sprite.renderType(RenderTypes::bannerPattern);
         submitNodeCollector.submitModel(
-                model, state, poseStack, sprite.renderType(RenderTypes::bannerPattern), lightCoords, overlayCoords, diffuseColor, sprites.get(sprite), 0, breakProgress
-        );
+                model, state, poseStack, renderType,
+                lightCoords, overlayCoords, diffuseColor, sprites.get(sprite), 0);
+        if (breakProgress != null) {
+            submitNodeCollector.submitCrumblingOverlay(model, state, poseStack,
+                    renderType, lightCoords, overlayCoords,
+                    diffuseColor, breakProgress);
+        }
     }
 
     private static Transformation modelTransformation(final float angle) {
