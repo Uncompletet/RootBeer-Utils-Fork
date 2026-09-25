@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.Stream;
 import java.util.zip.ZipFile;
 
 @Mixin(FilePackResources.FileResourcesSupplier.class)
@@ -22,10 +23,10 @@ public abstract class FileResourcesSupplierMixin {
 
     @Shadow @Final private File content;
 
-    @Inject(method = "openFull", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "openResources", at = @At("HEAD"), cancellable = true)
     private void rbutils$useFastFilePackResources(PackLocationInfo location,
                                                   Pack.Metadata metadata,
-                                                  CallbackInfoReturnable<PackResources> cir) {
+                                                  CallbackInfoReturnable<Stream<PackResources>> cir) {
         if (!QuickPackConfig.isEnabled()) {
             return;
         }
@@ -38,6 +39,6 @@ public abstract class FileResourcesSupplierMixin {
             return; // Vanilla fall-through
         }
 
-        cir.setReturnValue(new FastFilePackResources(location, zipFile, metadata.overlays()));
+        cir.setReturnValue(Stream.of(new FastFilePackResources(location, zipFile, metadata.overlays())));
     }
 }
