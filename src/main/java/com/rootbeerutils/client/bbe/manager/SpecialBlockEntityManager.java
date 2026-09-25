@@ -16,9 +16,9 @@ public final class SpecialBlockEntityManager {
             return false;
         }
 
-        Component[] lines = text.getMessages(filtered);
+        java.util.List<Component> lines = text.getMessages(filtered);
         for (int i = 0; i < 4; i++) {
-            if (!lines[i].getString().isEmpty()) {
+            if (!lines.get(i).getString().isEmpty()) {
                 return true;
             }
         }
