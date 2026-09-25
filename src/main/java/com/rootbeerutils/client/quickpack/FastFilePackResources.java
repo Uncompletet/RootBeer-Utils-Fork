@@ -2,7 +2,7 @@ package com.rootbeerutils.client.quickpack;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.AbstractPackResources;
+import net.minecraft.server.packs.AbstractPackMetadataResources;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
@@ -25,7 +25,7 @@ import java.util.TreeSet;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class FastFilePackResources extends AbstractPackResources {
+public class FastFilePackResources extends AbstractPackMetadataResources implements PackResources {
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
