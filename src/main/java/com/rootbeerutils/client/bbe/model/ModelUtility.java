@@ -49,7 +49,7 @@ public final class ModelUtility {
                 }
 
                 Material.Baked bakedMat = new Material.Baked(sprite, false);
-                BakedQuad.MaterialInfo matInfo = BakedQuad.MaterialInfo.of(bakedMat, Transparency.NONE, -1, true, 0);
+                BakedQuad.MaterialInfo matInfo = BakedQuad.MaterialInfo.of(bakedMat, Transparency.NONE, -1, null, 0);
 
                 BakedQuad baked = new BakedQuad(
                         positions[0], positions[1], positions[2], positions[3],
