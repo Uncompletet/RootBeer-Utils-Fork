@@ -4,7 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class ZoomClient implements ClientModInitializer {
 
@@ -26,7 +26,7 @@ public class ZoomClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         zoomKey = KeyMappingHelper.registerKeyMapping(
-            new KeyMapping("key.rootbeerutils.zoom", GLFW.GLFW_KEY_UNKNOWN, KeyMapping.Category.MISC));
+            new KeyMapping("key.rootbeerutils.zoom", InputConstants.UNKNOWN.getValue(), KeyMapping.Category.MISC));
     }
 
     public static boolean isZoomActive() {
