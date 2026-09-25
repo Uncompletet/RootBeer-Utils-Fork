@@ -13,12 +13,28 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jspecify.annotations.Nullable;
 
 public final class OverlayRenderer {
 
     private OverlayRenderer() {
+    }
+
+    public static <S> void submitModel(SubmitNodeCollector collector, Model<? super S> model, S state,
+                                       PoseStack poseStack, int light, int overlay, int tint,
+                                       SpriteId sprite, SpriteGetter sprites, int outline,
+                                       ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        RenderType renderType = sprite.renderType(RenderTypes::entitySolid);
+        collector.submitModel(model, state, poseStack, renderType, light, overlay, tint, sprites.get(sprite), outline);
+        if (breakProgress != null) {
+            collector.submitCrumblingOverlay(model, state, poseStack, renderType, light, overlay, tint, breakProgress);
+        }
     }
 
         public static <S> boolean manageCrumblingOverlay(BlockEntity blockEntity, SubmitNodeCollector submitNodeCollector, PoseStack poseStack, Model<? super S> model,
@@ -47,16 +63,9 @@ public final class OverlayRenderer {
     public static <S> void submitCrumblingOverlay(SubmitNodeCollector submitNodeCollector, PoseStack poseStack, Model<? super S> model,
                                                   S state, int light, int overlayCoords, int tint,
                                                   ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
-        submitNodeCollector.submitModel(
-                model,
-                state,
-                poseStack,
-                ModelBakery.DESTROY_TYPES.get(crumblingOverlay.progress()),
-                light,
-                overlayCoords,
-                tint,
-                crumblingOverlay
-        );
+        submitNodeCollector.submitCrumblingOverlay(
+                model, state, poseStack, ModelBakery.DESTROY_TYPES.get(crumblingOverlay.progress()),
+                light, overlayCoords, tint, crumblingOverlay);
     }
 
     /**
