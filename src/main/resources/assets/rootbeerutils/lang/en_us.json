@@ -10,6 +10,8 @@
   "rootbeerutils.bbe.option.enabled":                      "Enable BBE alt renderers",
   "rootbeerutils.bbe.option.skip_vanilla":                 "Skip vanilla for dedicated alt renderers (advanced)",
   "rootbeerutils.bbe.option.christmas_chests":             "Christmas chest textures",
+  "rootbeerutils.bbe.category.general":                    "General",
+  "rootbeerutils.bbe.category.per_block":                  "Per-Block",
   "rootbeerutils.bbe.option.optimize_chests":              "Chests",
   "rootbeerutils.bbe.option.optimize_shulkers":            "Shulker boxes",
   "rootbeerutils.bbe.option.optimize_signs":               "Signs",
@@ -18,6 +20,9 @@
   "rootbeerutils.bbe.option.optimize_banners":             "Banners",
   "rootbeerutils.bbe.option.optimize_decorated_pots":      "Decorated pots",
   "rootbeerutils.bbe.option.optimize_copper_golem_statues": "Copper golem statues",
+  "rootbeerutils.crosshair.option.indicator":             "Draw crosshair indicator",
+  "rootbeerutils.crosshair.category":                      "Crosshair Indicator",
+  "rootbeerutils.modmenu.title":                           "RootBeerUtils",
 
   "text.autoconfig.customclientbrand.title":              "Custom Client Brand",
   "text.autoconfig.customclientbrand.option.customBrand": "Spoofed Client Brand",
