@@ -41,6 +41,8 @@ public final class ConfigCache {
 
     public static volatile int updateType;
 
+    public static volatile boolean crosshairIndicator;
+
     /**
      * Per-opt-kind quick-lookup table — indexed by {@code BlockEntityExt.optKind() & 0xFF}.
      */
@@ -76,6 +78,7 @@ public final class ConfigCache {
         bannerPose = options.banners.pose;
 
         updateType = options.scheduler.updateType;
+        crosshairIndicator = options.crosshair.indicator;
 
         // Mirror per-opt-kind toggles into the dense table (slot 0 == NONE => always false).
         Arrays.fill(ENABLED, false);

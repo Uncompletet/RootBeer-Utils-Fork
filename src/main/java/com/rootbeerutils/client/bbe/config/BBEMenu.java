@@ -141,7 +141,13 @@ public final class BBEMenu {
                         () -> options.optimizations.optimizeDecoratedPots),
                 makeSwitch(switchCtor, "rootbeerutils.bbe.option.optimize_copper_golem_statues",
                         v -> options.optimizations.optimizeCopperGolemStatues = v,
-                        () -> options.optimizations.optimizeCopperGolemStatues),
+                        () -> options.optimizations.optimizeCopperGolemStatues)
+        };
+
+        Object[] crosshairOptions = new Object[] {
+                makeSwitch(switchCtor, "rootbeerutils.crosshair.option.indicator",
+                        v -> options.crosshair.indicator = v,
+                        () -> options.crosshair.indicator),
         };
 
         // OptionBlock(String title, Option[] options) — second arg is Option[], built via
@@ -153,14 +159,18 @@ public final class BBEMenu {
         Object[] perBlockBlockArgs = { "Per-Block", asOptionArray(optionClass, perBlockOptions) };
         Object generalBlock  = blockCtor.newInstance(generalBlockArgs);
         Object perBlockBlock = blockCtor.newInstance(perBlockBlockArgs);
+        Object crosshairBlock = blockCtor.newInstance(new Object[] {
+                "Crosshair Indicator", asOptionArray(optionClass, crosshairOptions)
+        });
 
         // OptionPage(String name, OptionBlock[] blocks)
         Constructor<?> pageCtor = pageClass.getConstructor(String.class,
                 Array.newInstance(blockClass, 0).getClass());
 
-        Object blocksArr = Array.newInstance(blockClass, 2);
+        Object blocksArr = Array.newInstance(blockClass, 3);
         Array.set(blocksArr, 0, generalBlock);
         Array.set(blocksArr, 1, perBlockBlock);
+        Array.set(blocksArr, 2, crosshairBlock);
 
         Object[] pageArgs = { "Better Block Entities", blocksArr };
         return pageCtor.newInstance(pageArgs);
