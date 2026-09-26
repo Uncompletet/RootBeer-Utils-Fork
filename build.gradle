@@ -56,6 +56,9 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    // Optional config-screen integration; loaded only when Mod Menu is installed.
+    compileOnly "com.terraformersmc:modmenu:18.0.0"
+
     // VulkanMod is a soft, compile-only dependency: the @Pseudo chunk-pipeline mixins
     // and BBEMenu both no-op at runtime when VulkanMod isn't loaded. The local jar lets
     // us build offline; swap to the commented Modrinth coordinate to fetch from there.
