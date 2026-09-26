@@ -74,19 +74,7 @@ public final class BBEMenu {
         };
 
         Runnable onApply = () -> {
-            // Snapshot the value about to be replaced so we can detect changes that need a
-            // resource reload (item models bake christmas/normal at load time; runtime toggles
-            // don't re-bake them otherwise).
-            boolean prevChristmas = ConfigCache.christmasChests;
-
-            options.writeChanges();
-
-            boolean nextChristmas = ConfigCache.christmasChests;
-            if (prevChristmas != nextChristmas) {
-                Minecraft mc = Minecraft.getInstance();
-                BBE.getLogger().info("christmasChests toggled ? triggering resource reload to re-bake chest item models");
-                mc.reloadResourcePacks();
-            }
+            applyChanges(options);
         };
 
         Constructor<?> entryCtor = pickConstructor(entryClass);
@@ -98,6 +86,15 @@ public final class BBEMenu {
 
         Method addModEntry = registryClass.getMethod("addModEntry", entryClass);
         addModEntry.invoke(registry, entry);
+    }
+
+    public static void applyChanges(BBEGameOptions options) {
+        boolean prevChristmas = ConfigCache.christmasChests;
+        options.writeChanges();
+        if (prevChristmas != ConfigCache.christmasChests) {
+            BBE.getLogger().info("Christmas chest textures changed; reloading resources");
+            Minecraft.getInstance().reloadResourcePacks();
+        }
     }
 
     private static Object buildMainPage(Class<?> pageClass, BBEGameOptions options) throws Exception {
