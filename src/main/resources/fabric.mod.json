@@ -9,8 +9,8 @@
     "Uncompletet"
   ],
   "contact": {
-    "homepage": "https://example.invalid/rootbeer-utils",
-    "sources":  "https://example.invalid/rootbeer-utils"
+    "homepage": "https://github.com/Uncompletet/RootBeer-Utils-Fork",
+    "sources":  "https://github.com/Uncompletet/RootBeer-Utils-Fork"
   },
   "license": "MIT",
   "icon": "assets/rootbeerutils/textures/rootbeerutils.png",
