@@ -32,6 +32,7 @@ public class BBEGameOptions {
     public final SignSettings signs = new SignSettings();
     public final BannerSettings banners = new BannerSettings();
     public final SchedulerSettings scheduler = new SchedulerSettings();
+    public final CrosshairSettings crosshair = new CrosshairSettings();
 
     private File file;
 
@@ -124,5 +125,9 @@ public class BBEGameOptions {
     public static class SchedulerSettings {
         /** 0 = FAST (always emit base+lid), 1 = SMART (skip base when lid is animated). */
         public int updateType = 1;
+    }
+
+    public static class CrosshairSettings {
+        public boolean indicator = true;
     }
 }

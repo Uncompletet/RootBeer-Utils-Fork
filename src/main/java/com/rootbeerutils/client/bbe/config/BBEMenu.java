@@ -74,30 +74,27 @@ public final class BBEMenu {
         };
 
         Runnable onApply = () -> {
-            // Snapshot the value about to be replaced so we can detect changes that need a
-            // resource reload (item models bake christmas/normal at load time; runtime toggles
-            // don't re-bake them otherwise).
-            boolean prevChristmas = ConfigCache.christmasChests;
-
-            options.writeChanges();
-
-            boolean nextChristmas = ConfigCache.christmasChests;
-            if (prevChristmas != nextChristmas) {
-                Minecraft mc = Minecraft.getInstance();
-                BBE.getLogger().info("christmasChests toggled ? triggering resource reload to re-bake chest item models");
-                mc.reloadResourcePacks();
-            }
+            applyChanges(options);
         };
 
         Constructor<?> entryCtor = pickConstructor(entryClass);
         Object[] entryArgs = {
-              name, iconSupplier, pagesSupplier, onApply
+                name, iconSupplier, pagesSupplier, onApply
         };
 
         Object entry = entryCtor.newInstance(entryArgs);
 
         Method addModEntry = registryClass.getMethod("addModEntry", entryClass);
         addModEntry.invoke(registry, entry);
+    }
+
+    public static void applyChanges(BBEGameOptions options) {
+        boolean prevChristmas = ConfigCache.christmasChests;
+        options.writeChanges();
+        if (prevChristmas != ConfigCache.christmasChests) {
+            BBE.getLogger().info("Christmas chest textures changed; reloading resources");
+            Minecraft.getInstance().reloadResourcePacks();
+        }
     }
 
     private static Object buildMainPage(Class<?> pageClass, BBEGameOptions options) throws Exception {
@@ -141,7 +138,13 @@ public final class BBEMenu {
                         () -> options.optimizations.optimizeDecoratedPots),
                 makeSwitch(switchCtor, "rootbeerutils.bbe.option.optimize_copper_golem_statues",
                         v -> options.optimizations.optimizeCopperGolemStatues = v,
-                        () -> options.optimizations.optimizeCopperGolemStatues),
+                        () -> options.optimizations.optimizeCopperGolemStatues)
+        };
+
+        Object[] crosshairOptions = new Object[] {
+                makeSwitch(switchCtor, "rootbeerutils.crosshair.option.indicator",
+                        v -> options.crosshair.indicator = v,
+                        () -> options.crosshair.indicator),
         };
 
         // OptionBlock(String title, Option[] options) — second arg is Option[], built via
@@ -153,14 +156,18 @@ public final class BBEMenu {
         Object[] perBlockBlockArgs = { "Per-Block", asOptionArray(optionClass, perBlockOptions) };
         Object generalBlock  = blockCtor.newInstance(generalBlockArgs);
         Object perBlockBlock = blockCtor.newInstance(perBlockBlockArgs);
+        Object crosshairBlock = blockCtor.newInstance(new Object[] {
+                "Crosshair Indicator", asOptionArray(optionClass, crosshairOptions)
+        });
 
         // OptionPage(String name, OptionBlock[] blocks)
         Constructor<?> pageCtor = pageClass.getConstructor(String.class,
                 Array.newInstance(blockClass, 0).getClass());
 
-        Object blocksArr = Array.newInstance(blockClass, 2);
+        Object blocksArr = Array.newInstance(blockClass, 3);
         Array.set(blocksArr, 0, generalBlock);
         Array.set(blocksArr, 1, perBlockBlock);
+        Array.set(blocksArr, 2, crosshairBlock);
 
         Object[] pageArgs = { "Better Block Entities", blocksArr };
         return pageCtor.newInstance(pageArgs);

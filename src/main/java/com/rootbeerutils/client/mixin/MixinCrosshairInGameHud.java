@@ -1,5 +1,7 @@
 package com.rootbeerutils.client.mixin;
 
+import com.rootbeerutils.client.bbe.BBE;
+
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 
@@ -32,7 +34,8 @@ public class MixinCrosshairInGameHud {
             at = {@At("TAIL")}
     )
     private void drawCrosshair(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci) {
-        if (this.minecraft.crosshairPickEntity instanceof Entity) {
+        if (BBE.GlobalScope.options.crosshair.indicator
+                && this.minecraft.crosshairPickEntity instanceof Entity) {
             int scaledWidth = 15;
             int scaledHeight = 15;
             context.blitSprite(RenderPipelines.CROSSHAIR, this.CUSTOM_CROSSHAIR, (context.guiWidth() - scaledWidth) / 2, (context.guiHeight() - scaledHeight) / 2, scaledWidth, scaledHeight);
