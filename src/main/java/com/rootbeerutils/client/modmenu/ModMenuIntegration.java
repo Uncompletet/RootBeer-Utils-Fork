@@ -88,7 +88,7 @@ public final class ModMenuIntegration implements ModMenuApi {
                 shieldBlockingEnabled[0], true,
                 value -> shieldBlockingEnabled[0] = value);
         addToggle(shield, entries, "rootbeerutils.shield.option.factor_delay",
-                shieldDelayEnabled[0], true,
+                shieldDelayEnabled[0], false,
                 value -> shieldDelayEnabled[0] = value);
 
         return builder.build();
