@@ -22,6 +22,8 @@
   "rootbeerutils.bbe.category.per_block":                   "Per-Block",
   "rootbeerutils.crosshair.category":                       "Crosshair",
   "rootbeerutils.crosshair.option.indicator":               "Crosshair indicator",
+  "rootbeerutils.shield.category":                          "Shield",
+  "rootbeerutils.shield.option.blocking_fix":               "Fix Shield Blocking Animation",
   "rootbeerutils.modmenu.title":                            "RootBeer-Utils",
 
   "text.autoconfig.customclientbrand.title":              "Custom Client Brand",
