@@ -3,6 +3,7 @@ package com.rootbeerutils.client.modmenu;
 import com.rootbeerutils.client.bbe.BBE;
 import com.rootbeerutils.client.bbe.config.BBEGameOptions;
 import com.rootbeerutils.client.bbe.config.BBEMenu;
+import com.rootbeerutils.client.shield.ShieldBlockingConfig;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -27,10 +28,14 @@ public final class ModMenuIntegration implements ModMenuApi {
 
     private static Screen createConfigScreen(Screen parent) {
         BBEGameOptions options = BBE.GlobalScope.options;
+        boolean[] shieldBlockingEnabled = {ShieldBlockingConfig.isEnabled()};
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent)
                 .setTitle(Component.translatable("rootbeerutils.modmenu.title"))
-                .setSavingRunnable(() -> BBEMenu.applyChanges(options));
+                .setSavingRunnable(() -> {
+                    BBEMenu.applyChanges(options);
+                    ShieldBlockingConfig.setEnabled(shieldBlockingEnabled[0]);
+                });
         ConfigEntryBuilder entries = builder.entryBuilder();
 
         ConfigCategory general = builder.getOrCreateCategory(
@@ -74,6 +79,12 @@ public final class ModMenuIntegration implements ModMenuApi {
         addToggle(crosshair, entries, "rootbeerutils.crosshair.option.indicator",
                 options.crosshair.indicator, true,
                 value -> options.crosshair.indicator = value);
+
+        ConfigCategory shield = builder.getOrCreateCategory(
+                Component.translatable("rootbeerutils.shield.category"));
+        addToggle(shield, entries, "rootbeerutils.shield.option.blocking_fix",
+                shieldBlockingEnabled[0], true,
+                value -> shieldBlockingEnabled[0] = value);
 
         return builder.build();
     }
