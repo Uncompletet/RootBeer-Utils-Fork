@@ -27,23 +27,6 @@ repositories {
     maven { url "https://maven.nucleoid.xyz/" }
     maven { url "https://maven.blamejared.com/" }
 
-    // Modrinth Maven — canonical source for VulkanMod when working online.
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
-            }
-        }
-        filter {
-            includeGroup "maven.modrinth"
-        }
-    }
-
-    // Local jars (e.g. VulkanMod) when working offline.
-    flatDir {
-        dirs 'libs'
-    }
 }
 
 dependencies {
@@ -58,12 +41,6 @@ dependencies {
 
     // Optional config-screen integration; loaded only when Mod Menu is installed.
     compileOnly "com.terraformersmc:modmenu:18.0.0"
-
-    // VulkanMod is a soft, compile-only dependency: the @Pseudo chunk-pipeline mixins
-    // and BBEMenu both no-op at runtime when VulkanMod isn't loaded. The local jar lets
-    // us build offline; swap to the commented Modrinth coordinate to fetch from there.
-    compileOnly files("libs/VulkanMod-0.6.5-26.1.2.jar")
-    // compileOnly "maven.modrinth:vulkanmod:${project.vulkanmod_version}"
 
     // Cloth Config API
     api("me.shedaniel.cloth:cloth-config-fabric:26.1.154") {
