@@ -13,6 +13,8 @@
   "rootbeerutils.shield.option.blocking_fix":              "Fix Shield blocking animation",
   "rootbeerutils.shield.option.factor_delay":              "5-Tick Shield Animation",
   "rootbeerutils.modmenu.title":                           "RootBeerUtils",
+  "rootbeerutils.clientbrand.category":                    "ClientBrand",
+  "rootbeerutils.clientbrand.option.name":                 "Client name",
 
   "text.autoconfig.customclientbrand.title":              "Custom Client Brand",
   "text.autoconfig.customclientbrand.option.customBrand": "Spoofed Client Brand",
