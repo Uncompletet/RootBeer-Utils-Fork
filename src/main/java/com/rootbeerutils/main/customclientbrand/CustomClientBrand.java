@@ -1,7 +1,5 @@
 package com.rootbeerutils.main.customclientbrand;
 
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +15,5 @@ public class CustomClientBrand  implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info(MOD_ID + " Loaded!");
-        AutoConfig.register(CCBConfig.class, GsonConfigSerializer::new);
     }
 }
