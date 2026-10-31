@@ -10,6 +10,7 @@ import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,13 +29,12 @@ public class MixinCrosshairInGameHud {
 
     public MixinCrosshairInGameHud() {
     }
-
     @Inject(
             method = {"extractCrosshair"},
             at = {@At("TAIL")}
     )
     private void drawCrosshair(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci) {
-        if (RootBeerUtilsClient.CONFIG.crosshair.indicator && this.minecraft.crosshairPickEntity instanceof Entity) {
+        if (RootBeerUtilsClient.CONFIG.crosshair.indicator && this.minecraft.crosshairPickEntity instanceof Player) {
             int scaledWidth = 15;
             int scaledHeight = 15;
             context.blitSprite(RenderPipelines.CROSSHAIR, this.CUSTOM_CROSSHAIR, (context.guiWidth() - scaledWidth) / 2, (context.guiHeight() - scaledHeight) / 2, scaledWidth, scaledHeight);
