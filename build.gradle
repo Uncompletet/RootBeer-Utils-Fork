@@ -42,6 +42,9 @@ dependencies {
     // Optional settings-screen integration; loaded only when Mod Menu is installed.
     compileOnly "com.terraformersmc:modmenu:18.0.0"
 
+    // Optional settings-screen integration; loaded only when Mod Menu is installed.
+    compileOnly "com.terraformersmc:modmenu:18.0.0"
+
     // Cloth Config API
     api("me.shedaniel.cloth:cloth-config-fabric:26.1.154") {
         exclude(group: "net.fabricmc.fabric-api")

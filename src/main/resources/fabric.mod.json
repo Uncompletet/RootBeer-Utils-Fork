@@ -27,6 +27,9 @@
       "com.rootbeerutils.client.clientcommands.ClientCommands",
       "com.rootbeerutils.client.crosshair.Crosshairindicator"
     ],
+    "modmenu": [
+      "com.rootbeerutils.client.modmenu.ModMenuIntegration"
+    ],
     "main": [
       "com.rootbeerutils.main.healthmod.HealthMod",
       "com.rootbeerutils.main.customclientbrand.CustomClientBrand"
