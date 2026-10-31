@@ -16,8 +16,5 @@
   "rootbeerutils.clientbrand.category":                    "ClientBrand",
   "rootbeerutils.clientbrand.option.name":                 "Client name",
 
-  "text.autoconfig.customclientbrand.title":              "Custom Client Brand",
-  "text.autoconfig.customclientbrand.option.customBrand": "Spoofed Client Brand",
-
   "commands.gamma.success":    "Set gamma to %s"
 }

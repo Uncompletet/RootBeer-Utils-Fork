@@ -3,11 +3,9 @@ package com.rootbeerutils.client.modmenu;
 import com.rootbeerutils.client.RootBeerUtilsClient;
 import com.rootbeerutils.client.config.RootBeerUtilsConfig;
 import com.rootbeerutils.client.shield.ShieldBlockingConfig;
-import com.rootbeerutils.main.customclientbrand.CCBConfig;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -29,7 +27,6 @@ public final class ModMenuIntegration implements ModMenuApi {
 
     private static Screen createConfigScreen(Screen parent) {
         RootBeerUtilsConfig options = RootBeerUtilsClient.CONFIG;
-        CCBConfig clientBrand = AutoConfig.getConfigHolder(CCBConfig.class).get();
         boolean[] shieldBlockingEnabled = {ShieldBlockingConfig.isEnabled()};
         boolean[] shieldDelayEnabled = {ShieldBlockingConfig.factorsInShieldDelay()};
         ConfigBuilder builder = ConfigBuilder.create()
@@ -37,7 +34,6 @@ public final class ModMenuIntegration implements ModMenuApi {
                 .setTitle(Component.translatable("rootbeerutils.modmenu.title"))
                 .setSavingRunnable(() -> {
                     options.writeChanges();
-                    AutoConfig.getConfigHolder(CCBConfig.class).save();
                     ShieldBlockingConfig.setEnabled(shieldBlockingEnabled[0]);
                     ShieldBlockingConfig.setFactorDelay(shieldDelayEnabled[0]);
                 });
@@ -62,9 +58,9 @@ public final class ModMenuIntegration implements ModMenuApi {
                 Component.translatable("rootbeerutils.clientbrand.category"));
         clientBrandCategory.addEntry(entries.startStrField(
                         Component.translatable("rootbeerutils.clientbrand.option.name"),
-                        clientBrand.customBrand())
+                        options.customBrand)
                 .setDefaultValue("Corven Client")
-                .setSaveConsumer(clientBrand::customBrand)
+                .setSaveConsumer(value -> options.customBrand = value)
                 .build());
 
         return builder.build();

@@ -47,11 +47,6 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    // Lombok for CustomClientBrand
-    compileOnly "org.projectlombok:lombok:1.18.42"
-    annotationProcessor "org.projectlombok:lombok:1.18.42"
-
-
     processResources {
         inputs.property "version", project.mod_version
         inputs.property "minecraft_version", project.minecraft_version

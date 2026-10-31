@@ -20,6 +20,7 @@ public final class RootBeerUtilsConfig {
             .create();
 
     public final CrosshairSettings crosshair = new CrosshairSettings();
+    public volatile String customBrand = "Corven Client";
     private File file;
 
     public static RootBeerUtilsConfig load(File file, File legacyFile) {
